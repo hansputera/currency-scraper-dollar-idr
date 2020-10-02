@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "outDir": "./dist",
+        "target": "ESNext",
+        "module": "CommonJS"
+    },
+}
