@@ -1,7 +1,7 @@
 import request from "request";
 import {
     _client,
-    config, CurrencyOptions
+    config
 } from "./BaseConfig";
 import CurrencyError from "./utils/Error";
 
@@ -13,14 +13,14 @@ interface optionsReq {
 }
 
 export default class CurrencyScrape {
-    private url = `${config.baseURL}/search?q=${encodeURIComponent(this.opt!.keyword || config.keyword)}`;
+    private url = `${config.baseURL}/search?q=${encodeURIComponent(config.keyword)}`;
     private options: optionsReq = {
         url: this.url,
         headers: {
-            "user-agent": this.opt!.userAgent || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
         }
     };
-    constructor(public opt?: CurrencyOptions, public cheerioOpt?: cheerio.CheerioParserOptions) {}
+    constructor(public cheerioOpt?: cheerio.CheerioParserOptions) {}
     public async got() {
         return new Promise((resolve, reject) => {
         _client.req(this.options, (error, response: request.Response, data: Buffer | string) => {
@@ -40,7 +40,7 @@ export default class CurrencyScrape {
             const currency_ = $("[class=\"MWvIVe\"]").text().trim();
             if (currency == "" && currency_ == "" && currency_from_1 == "") {
                 reject("Failed to fetch currency because internal error.");
-                throw new CurrencyError("[CURRENCY_ERROR]", "Your keyword doesn't look like currency search keyword or Your IP was blocked by Google because many requests and suspicious activity.");
+                throw new CurrencyError("[CURRENCY_ERROR]", "Maybe Your IP was blocked by Google because many requests and suspicious activity.");
             }
            resolve(`Rate 1 ${currency_from_1} adalah ${currency} ${currency_}`);
         });

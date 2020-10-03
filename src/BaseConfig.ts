@@ -11,11 +11,6 @@ const _client = {
     req: request
 };
 
-export interface CurrencyOptions {
-    userAgent?: string;
-    keyword?: string;
-}
-
 export {
     config,
     _client
