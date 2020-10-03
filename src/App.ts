@@ -13,11 +13,11 @@ interface optionsReq {
 }
 
 export default class CurrencyScrape {
-    private url = `${config.baseURL}/search?q=${encodeURIComponent(config.keyword)}`;
+    private url = `${config.baseURL}/search?q=${encodeURIComponent(this.opt!.keyword || config.keyword)}`;
     private options: optionsReq = {
         url: this.url,
         headers: {
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+            "user-agent": this.opt!.userAgent || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
         }
     };
     constructor(public opt?: CurrencyOptions, public cheerioOpt?: cheerio.CheerioParserOptions) {}
@@ -38,6 +38,10 @@ export default class CurrencyScrape {
             const currency_from_1 = $("[class=\"vLqKYe\"]").text().trim();
             const currency = $("[class=\"DFlfde SwHCTb\"]").text().trim();
             const currency_ = $("[class=\"MWvIVe\"]").text().trim();
+            if (currency == "" && currency_ == "" && currency_from_1 == "") {
+                reject("Failed to fetch currency because internal error.");
+                throw new CurrencyError("[CURRENCY_ERROR]", "Your keyword doesn't look like currency search keyword or Your IP was blocked by Google because many requests and suspicious activity.");
+            }
            resolve(`Rate 1 ${currency_from_1} adalah ${currency} ${currency_}`);
         });
     });

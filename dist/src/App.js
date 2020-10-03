@@ -9,11 +9,11 @@ class CurrencyScrape {
     constructor(opt, cheerioOpt) {
         this.opt = opt;
         this.cheerioOpt = cheerioOpt;
-        this.url = `${BaseConfig_1.config.baseURL}/search?q=${encodeURIComponent(BaseConfig_1.config.keyword)}`;
+        this.url = `${BaseConfig_1.config.baseURL}/search?q=${encodeURIComponent(this.opt.keyword || BaseConfig_1.config.keyword)}`;
         this.options = {
             url: this.url,
             headers: {
-                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+                "user-agent": this.opt.userAgent || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
             }
         };
     }
@@ -32,6 +32,10 @@ class CurrencyScrape {
                 const currency_from_1 = $("[class=\"vLqKYe\"]").text().trim();
                 const currency = $("[class=\"DFlfde SwHCTb\"]").text().trim();
                 const currency_ = $("[class=\"MWvIVe\"]").text().trim();
+                if (currency == "" && currency_ == "" && currency_from_1 == "") {
+                    reject("Failed to fetch currency because internal error.");
+                    throw new Error_1.default("[CURRENCY_ERROR]", "Your keyword doesn't look like currency search keyword or Your IP was blocked by Google because many requests and suspicious activity.");
+                }
                 resolve(`Rate 1 ${currency_from_1} adalah ${currency} ${currency_}`);
             });
         });

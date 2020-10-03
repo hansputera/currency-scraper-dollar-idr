@@ -6,6 +6,7 @@
         "resolveJsonModule": true,
         "outDir": "./dist",
         "target": "ESNext",
-        "module": "CommonJS"
+        "module": "CommonJS",
+        "declaration": true
     },
 }

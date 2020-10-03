@@ -2,7 +2,7 @@ import cheerio from "cheerio";
 import request from "request";
 
 const config = {
-    baseURL: "https://google.com",
+    baseURL: "https://google.co.id",
     keyword: "dollar to idr today"
 };
 
@@ -12,7 +12,8 @@ const _client = {
 };
 
 export interface CurrencyOptions {
-    userAgent?: string,
+    userAgent?: string;
+    keyword?: string;
 }
 
 export {

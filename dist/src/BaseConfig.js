@@ -7,7 +7,7 @@ exports._client = exports.config = void 0;
 const cheerio_1 = __importDefault(require("cheerio"));
 const request_1 = __importDefault(require("request"));
 const config = {
-    baseURL: "https://google.com",
+    baseURL: "https://google.co.id",
     keyword: "dollar to idr today"
 };
 exports.config = config;
